@@ -15,7 +15,10 @@ export const validateCreateProduct = celebrate({
       'any.required': 'Поле title обязательно для заполнения',
     }),
     description: Joi.string().required(),
-    image: Joi.string().uri().required(),
+    image: Joi.object().keys({
+      fileName: Joi.string().required(),
+      originalName: Joi.string().required(),
+    }).required(),
     category: Joi.string().required(),
     price: Joi.number().positive().allow(null),
   }),

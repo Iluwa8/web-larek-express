@@ -14,7 +14,7 @@ const PORT = 3000;
 app.use(requestLogger);
 app.use(cors());
 app.use(express.json());
-app.use(express.static(path.join(__dirname, '../public')));
+app.use(express.static(path.join(__dirname, 'public')));
 
 mongoose.connect(process.env.DB_ADDRESS || 'mongodb://127.0.0.1:27017/weblarek')
   // eslint-disable-next-line no-console

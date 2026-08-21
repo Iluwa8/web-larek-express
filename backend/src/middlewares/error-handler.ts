@@ -4,7 +4,7 @@ import { isCelebrateError } from 'celebrate';
 import { ApiError } from '../errors/api-error';
 
 export const errorHandler = (
-  err: ApiError,
+  err: any,
   _req: Request,
   res: Response,
   _next: NextFunction,
@@ -14,18 +14,14 @@ export const errorHandler = (
 
   if (isCelebrateError(err)) {
     const message = err.details.get('body')?.message
-      || err.details.get('params')?.message
-      || err.details.get('query')?.message
-      || 'Ошибка валидации данных';
+            || err.details.get('params')?.message
+            || err.details.get('query')?.message
+            || 'Ошибка валидации данных';
     return res.status(400).json({ message });
   }
 
   if (err instanceof ApiError) {
-    res.status(err.statusCode).json({ message: err.message });
-  }
-
-  if ('status' in err && 'joi' in err && (err as any).status === 400) {
-    return res.status(400).json({ message: err.message });
+    return res.status(err.statusCode).json({ message: err.message });
   }
 
   if (err instanceof MongooseError.ValidationError) {
